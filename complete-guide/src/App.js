@@ -9,6 +9,7 @@ class App extends Component {
       { name: "verma ", age: 26 },
       { name: "P", age: 25 },
     ],
+    showPersons: false,
   };
 
   switchNameHandler = (newName) => {
@@ -31,25 +32,27 @@ class App extends Component {
       ],
     });
   };
+
+  renderConditionallyPersons = () => {
+    const doesShow = this.state.showPersons;
+    this.setState({ showPersons: !doesShow });
+  };
   render() {
+    let person = null;
+    if (this.state.showPersons) {
+      person = (
+        <div>
+          {this.state.person.map((person) => {
+            return <Person name={person.name} age={person.age} />;
+          })}
+        </div>
+      );
+    }
+
     return (
       <div className="App">
-        <button onClick={this.switchNameHandler.bind(this, "Pranjal Verma")}>
-          Switch Name
-        </button>
-        <Person
-          name={this.state.person[0].name}
-          age={this.state.person[0].age}
-        />
-        <Person
-          name={this.state.person[1].name}
-          age={this.state.person[1].age}
-          click={this.switchNameHandler.bind(this, "PRANJAL")}
-          change={this.changeNameHandler}
-        />
-        <Person name={this.state.person[2].name} age={this.state.person[2].age}>
-          My hobbies are:Racing
-        </Person>
+        <button onClick={this.renderConditionallyPersons}>Switch Name</button>
+        {person}
       </div>
     );
   }
